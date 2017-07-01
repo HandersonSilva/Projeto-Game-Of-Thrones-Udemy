@@ -10,6 +10,9 @@ var bodyParser = require('body-parser');
 /* importar o módulo do express-validator */
 var expressValidator = require('express-validator');
 
+//importar o modulo express-session
+var expressSession = require('express-session');
+
 /* iniciar o objeto do express */
 var app = express();
 
@@ -19,6 +22,14 @@ app.set('views', './app/views');
 
 /* configurar o middleware express.static */
 app.use(express.static('./app/public'));
+
+//configura o mddleware express-session
+app.use(expressSession({
+	secret:'gsdjasdaksdkas', //indentificação key de acesso ao cook
+	resave:false, //se for true regrava a seção no servidor
+	saveUninitialized:false //se for true,cria uma seção nova sempre que a mesma for modificada
+}));
+
 
 /* configurar o middleware body-parser */
 app.use(bodyParser.urlencoded({extended: true}));

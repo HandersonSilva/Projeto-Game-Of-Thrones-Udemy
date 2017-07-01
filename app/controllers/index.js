@@ -15,5 +15,13 @@ module.exports.autenticar=function(application,req,res){
             return;
         }
 
-        res.send('tudo certo OK!');
+        //Criando a conexão com o banco MongoDb
+        var connection = application.config.dbConnection;
+        var UsuarioDAO = new application.app.models.usuarioDAO(connection);
+
+        UsuarioDAO.autenticar(dadosForm,req,res);
+
+
+        
+        //res.send('tudo certo OK!');
 }
