@@ -22,6 +22,24 @@ jogoDAO.prototype.gerarParametros =function(usuario){
     });
 }
 
+jogoDAO.prototype.iniciaJogo =function(res,usuario,casa){
+     this._connection.open(function(err,mongoclient){
+        //inserir dados ao banco
+        mongoclient.collection("jogo",function(err,collection){
+            //collection.find({usuario:{$eq:usuario.usuario},senha:{$eq:usuario.senha}});//query mongo db procura
+            //query de pesquisa simplificada
+            collection.find({usuario:usuario}).toArray(function(err,result){//result é os dados em um array
+                
+                res.render('jogo',{img_casa:casa,jogo:result[0]});
+                   
+            });
+
+            mongoclient.close();
+        });
+    });
+
+}
+
 
 module.exports = function(){
     return jogoDAO;

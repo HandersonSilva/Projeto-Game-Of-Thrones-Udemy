@@ -1,10 +1,19 @@
 module.exports.jogo=function(application,req,res){
     //restringindo a pagina com uma variavel de sessão
-    if(req.session.autorizado){
-         res.render('jogo',{img_casa:req.session.casa});
-    }else{
-         res.render('index',{validacao:{}});
-    }  
+    if(req.session.autorizado !== true){
+        res.render('index',{validacao:{}});
+        return;
+    }
+    
+    //recuperando o usuario e casa da variavel de sessão
+    var usuario = req.session.usuario;
+    var casa = req.session.casa;
+    //abrindo conexão com o banco
+     var connection = application.config.dbConnection;
+     var jogoDAO = new application.app.models.jogoDAO(connection);
+     jogoDAO.iniciaJogo(res,usuario,casa);
+    
+     
 };
 
 module.exports.sair=function(application,req,res){
